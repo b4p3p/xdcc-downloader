@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:">
+<title>XDCC Downloader</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg class="sprite" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2.5h7a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6.5 6.5 11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><path d="M13.5 4.5h6v6M19.5 4.5 11 13M17.5 14v4a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 18V8A1.5 1.5 0 0 1 6 6.5h4"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24"><path d="m8 9.5 4-4 4 4M8 14.5l4 4 4-4"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="m7.5 14 4.5-4.5 4.5 4.5"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m7.5 10 4.5 4.5 4.5-4.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5.5 12.5 4 4 9-9"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5.5M12 16.2v.3"/></symbol>
+</svg>
+
+<header class="bar">
+  <div class="brand"><span class="brand-stamp" aria-hidden="true"><svg><use href="#i-download"/></svg></span><span>XDCC Downloader</span></div>
+  <form id="search-form" class="search" role="search">
+    <label for="query" class="sr-only" data-i18n="search.label">Cerca su XDCC.eu</label>
+    <svg class="search-icon" aria-hidden="true"><use href="#i-search"/></svg>
+    <input id="query" type="search" minlength="2" maxlength="200" required autocomplete="off" data-i18n-placeholder="search.placeholder" placeholder="Nome del file">
+    <button id="search-button" type="submit" class="btn btn-send" data-i18n="search.button">Cerca</button>
+  </form>
+  <nav class="tabs" role="tablist">
+    <button type="button" role="tab" id="tab-search" aria-controls="panel-search" aria-selected="true" data-i18n="tab.search">Ricerca</button>
+    <button type="button" role="tab" id="tab-manual" aria-controls="panel-manual" aria-selected="false" tabindex="-1" data-i18n="tab.manual">Richiesta manuale</button>
+  </nav>
+  <div class="lang" role="group" data-i18n-label="lang.label" aria-label="Lingua">
+    <button type="button" data-lang="it" aria-pressed="true">IT</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </div>
+</header>
+
+<main class="desk">
+  <section class="panel work">
+    <div id="panel-search" role="tabpanel" aria-labelledby="tab-search" class="tabpanel">
+      <div class="panel-head">
+        <h1 data-i18n="results.caption">Risultati XDCC.eu</h1>
+        <p id="search-status" class="meta" role="status">Scrivi il nome di un file.</p>
+      </div>
+      <div id="results" class="results"></div>
+      <div id="results-empty" class="empty">
+        <p class="empty-title" data-i18n="app.tagline">Cerca un file oppure incolla i dati del download.</p>
+        <ol class="steps">
+          <li><strong data-i18n="step1.title">Cerca</strong><span data-i18n="step1.text">Scrivi il nome del file nella barra in alto.</span></li>
+          <li><strong data-i18n="step2.title">Scegli</strong><span data-i18n="step2.text">Seleziona una riga: a destra compaiono bot, server e canale.</span></li>
+          <li><strong data-i18n="step3.title">Ricevi</strong><span data-i18n="step3.text">Avvia il download: l'app si collega al bot e segue il pacco fino alla consegna.</span></li>
+        </ol>
+      </div>
+    </div>
+    <div id="panel-manual" role="tabpanel" aria-labelledby="tab-manual" class="tabpanel" hidden>
+      <div class="panel-head"><h1><label for="request" data-i18n="manual.label">Dati del download</label></h1></div>
+      <div class="manual">
+        <textarea id="request" spellcheck="false" aria-describedby="request-help request-check" placeholder="Server: irc.example.net&#10;Channel: #linux-iso&#10;Command: /msg MirrorBot xdcc send #12"></textarea>
+        <p id="request-check" class="check" role="status"></p>
+        <p id="request-help" class="meta" data-i18n="manual.help">Incolla Server, Channel e Command, oppure il link IRC e il comando XDCC.</p>
+        <div class="formats">
+          <figure><figcaption data-i18n="manual.format1">Formato a campi</figcaption><pre>Server: irc.example.net
+Channel: #linux-iso
+Command: /msg MirrorBot xdcc send #12</pre></figure>
+          <figure><figcaption data-i18n="manual.format2">Link IRC più comando</figcaption><pre>irc://irc.example.net/linux-iso
+/msg MirrorBot xdcc send #12</pre></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="panel envelope" aria-labelledby="env-file">
+    <div class="env-head">
+      <div class="env-id"><h2 id="env-file" class="env-file none">Nessun file scelto</h2></div>
+      <div id="postmark" class="postmark" data-state="idle" aria-hidden="true"><span id="pm-net">XDCC</span><span id="pm-date"></span><span id="pm-state">PRONTO</span></div>
+    </div>
+    <dl id="waybill" class="waybill" hidden>
+      <dt data-i18n="env.from">Mittente</dt><dd id="wb-from"></dd>
+      <dt data-i18n="env.office">Server</dt><dd id="wb-office"></dd>
+    </dl>
+    <p id="env-hint" class="meta" data-i18n="env.noneHint">Seleziona un risultato della ricerca o incolla una richiesta manuale.</p>
+    <div class="folder">
+      <div><span class="label" data-i18n="env.to">Salva in</span><div id="destination" class="path"><bdi id="destination-text" data-i18n="env.defaultFolder">Cartella Download di Windows</bdi></div></div>
+      <button id="folder" type="button" class="btn btn-ghost"><svg aria-hidden="true"><use href="#i-folder"/></svg><span data-i18n="env.chooseFolder">Cambia cartella</span></button>
+    </div>
+    <div class="actions">
+      <button id="start" type="button" class="btn btn-primary"><svg aria-hidden="true"><use href="#i-download"/></svg><span data-i18n="env.start">Avvia download</span></button>
+      <button id="cancel" type="button" class="btn btn-ghost" disabled><svg aria-hidden="true"><use href="#i-close"/></svg><span data-i18n="env.cancel">Annulla</span></button>
+    </div>
+    <section id="transit" class="transit" aria-live="polite" data-idle="true">
+      <div class="strip" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="state"><i id="strip-fill"></i></div>
+      <div class="figures">
+        <span id="percent" class="percent">0%</span>
+        <span class="numbers"><span id="bytes">0 MB</span><span id="speed"></span><span id="eta"></span></span>
+      </div>
+      <p class="state-line"><strong id="state" data-state="idle">Pronto</strong> <span id="message">Incolla i dati o scegli un risultato per iniziare.</span></p>
+      <button id="open" type="button" class="btn btn-link"><span data-i18n="env.open">Apri cartella</span><svg aria-hidden="true"><use href="#i-open"/></svg></button>
+    </section>
+    <details class="log" open>
+      <summary><svg aria-hidden="true"><use href="#i-down"/></svg><span data-i18n="env.log">Messaggi della connessione</span></summary>
+      <pre id="log"></pre>
+    </details>
+    <p class="meta footnote" data-i18n="env.footer">Il bot può metterti in coda: i suoi messaggi compaiono nel registro.</p>
+  </aside>
+</main>
+<script src="i18n.js"></script>
+<script src="results.js"></script>
+<script src="renderer.js"></script>
+</body>
+</html>

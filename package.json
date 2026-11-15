@@ -1,0 +1,49 @@
+{
+  "name": "xdcc-downloader",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Simple XDCC client for Windows: search XDCC.eu and download from IRC bots",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "smoke": "electron scripts/smoke.cjs",
+    "shots": "electron scripts/screenshots.cjs",
+    "pack": "electron-builder --win portable",
+    "pack:check": "node scripts/check-package.cjs"
+  },
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "xdccjs": "5.4.11"
+  },
+  "devDependencies": {
+    "electron": "^42.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "it.xdccdownloader.app",
+    "productName": "XDCC Downloader",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "src/assets/icon.ico"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/b4p3p/xdcc-downloader.git"
+  },
+  "keywords": [
+    "xdcc",
+    "irc",
+    "dcc",
+    "downloader",
+    "electron",
+    "windows"
+  ],
+  "author": "b4p3p"
+}

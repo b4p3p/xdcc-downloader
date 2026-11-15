@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "repeating-stripes-gradient",
+        "value": "*",
+        "files": [
+          "src/style.css"
+        ],
+        "createdAt": "2026-11-15T11:05:43.005Z",
+        "reason": "direction contract (seed:31cc18f586f95868): the airmail chevron progress strip is the chosen signature move, proportional to bytes"
+      }
+    ]
+  }
+}
