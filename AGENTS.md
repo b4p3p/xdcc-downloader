@@ -12,7 +12,7 @@ npm start          # run the app
 npm test           # node --test: parser, search parsing, local IRC/DCC transfer
 npm run smoke      # opens the real window, drives search/select/sort, exits
 npm run shots      # screenshots of the main states into .impeccable/review/
-npm run pack       # portable Windows exe in dist/
+npm run pack       # Windows installer (NSIS) and portable exe in dist/
 npm run pack:check # checks the packed exe (window, preload, live search)
 ```
 

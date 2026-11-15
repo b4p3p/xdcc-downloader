@@ -89,7 +89,7 @@ I suggerimenti sono ben accetti. Apri una [issue](https://github.com/b4p3p/xdcc-
 - `npm test` verifica il riconoscimento delle richieste, la lettura dei risultati di ricerca e un trasferimento DCC tramite un server IRC locale, inclusa l'interruzione prima del completamento.
 - `npm run smoke` apre l'interfaccia e prova ricerca, selezione e ordinamento con dati finti.
 - `npm run shots` cattura le schermate degli stati principali in `.impeccable/review/`.
-- `npm run pack` genera un eseguibile Windows portable in `dist`; `npm run pack:check` lo verifica.
+- `npm run pack` genera un installer Windows e un eseguibile portable in `dist`; `npm run pack:check` lo verifica.
 
 Le istruzioni per chi contribuisce (anche agenti) sono in [AGENTS.md](AGENTS.md).
 

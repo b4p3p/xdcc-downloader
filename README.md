@@ -89,7 +89,7 @@ Suggestions are very welcome. Open an [issue](https://github.com/b4p3p/xdcc-down
 - `npm test` checks request parsing, search result parsing and a DCC transfer through a local IRC server, including a transfer cut short before completion.
 - `npm run smoke` opens the interface and exercises search, selection and sorting with fake data.
 - `npm run shots` captures the main states into `.impeccable/review/`.
-- `npm run pack` builds a portable Windows executable in `dist`; `npm run pack:check` verifies it.
+- `npm run pack` builds a Windows installer and a portable executable in `dist`; `npm run pack:check` verifies it.
 
 Contributor (and coding agent) guidelines are in [AGENTS.md](AGENTS.md).
 
